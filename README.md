@@ -23,6 +23,12 @@ Dentro del entorno virtual:
 pip install jupyterlab
 ```
 
+Instalar librerías:
+```bash
+pip install -r requirements.txt
+```
+
+
 Levanta el servidor:
 
 ```bash
