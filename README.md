@@ -44,7 +44,19 @@ Memoria a largo plazo: El cell state c_t introduce un “canal” casi lineal po
 
 Dependencias remotas: Gracias a ese diseño, un LSTM puede aprender relaciones entre tokens muy distantes en la secuencia, donde una RNN estándar se pierde.
 
+## Parte 3
 
+* Compare las graficas obtenidas en el LSTM "a mano" y el LSTM "usando PyTorch, ¿cuál cree que es mejor? ¿Por qué?
+
+  R// El LSTM con PyTorch es significativamente mejor porque utiliza implementaciones optimizadas en C++/CUDA que son más rápidas y numéricamente estables, maneja automáticamente la inicialización de pesos y gradient clipping, y puede aprovechar GPU para acelerar el entrenamiento. Las gráficas de pérdida con PyTorch típicamente muestran convergencia más suave y rápida, mientras que la implementación manual tiende a tener más ruido y convergencia inestable debido a errores de implementación y falta de optimizaciones
+
+* Compare la secuencia target y la predicha de esta parte, ¿en qué parte falló el modelo?
+
+  R// El modelo falló principalmente en la transición crítica de 'a' a 'b' (alrededor de la posición 10-11) y en la predicción del token especial 'EOS' al final de la secuencia. Esto ocurre porque el modelo tiene dificultades para "contar" exactamente cuántos tokens 'a' ha procesado antes de cambiar a 'b', y el token 'EOS' aparece con poca frecuencia en el dataset, haciendo que sea difícil de predecir correctamente.
+
+* ¿Qué sucede en el código donde se señala "NOTA 1" y "NOTA 2"? ¿Para qué son necesarias estas líneas?
+
+  R// net.eval() (NOTA 1) pone la red en modo evaluación, desactivando dropout y usando estadísticas fijas para batch normalization, lo que garantiza predicciones consistentes durante validación. net.train() (NOTA 2) reactiva el modo entrenamiento con dropout y batch normalization dinámicos para regularización. Estas líneas son necesarias porque sin ellas, las métricas de validación serían inconsistentes y el modelo no se regularizaría correctamente durante el entrenamiento.
 ---
 
 ## Dependencias y como correr
